@@ -36,6 +36,12 @@ public class PairComparator implements Comparator<PairList>{
 					if(flag2 != 0){
 						resultFlag = flag2;
 						break;
+					}else{
+						if( length1 > length2){
+							resultFlag = 1;
+						}else{
+							resultFlag = -1;
+						}
 					}
 				}
 			}
