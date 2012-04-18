@@ -26,21 +26,24 @@ public class PairComparator implements Comparator<PairList>{
 				break;
 			}else{
 				//拼音相同时字符比较
-				int flag = w2.compareTo(w1);
+				PinYinMarker pinyinMarker = new PinYinMarker();
+				int flag = pinyinMarker.compareBH(w1, w2);
 				if(flag != 0){
 					resultFlag = flag;
 					break;
 				}else{
 					//笔画比较
-					int flag2 = PinYinMarker.compareBH(w1, w2);
+					int flag2 = w1.compareTo(w2);
 					if(flag2 != 0){
 						resultFlag = flag2;
 						break;
 					}else{
 						if( length1 > length2){
 							resultFlag = 1;
+							break;
 						}else{
 							resultFlag = -1;
+							break;
 						}
 					}
 				}

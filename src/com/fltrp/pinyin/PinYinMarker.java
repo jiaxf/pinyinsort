@@ -1,8 +1,6 @@
 package com.fltrp.pinyin;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +9,10 @@ public class PinYinMarker {
 	
 	public static java.util.Map<String, Integer> Number_BH = new java.util.Hashtable<String, Integer>();
 	public static PyMarker pyMarker = new PyMarker(Marker.FORMAT_PINYIN_NUMERIC, Marker.TYPE_SPELL_IGNORECASE);
+	public static String resourcesFile = "resources/words.txt";
 	
 	private void setNumberBH() {
-		File file = new File("com/fltrp/pinyin/resource/words.txt");
-		Number_BH = this.readFileBH(file);
+		Number_BH = this.readFileBH();
 	}
 	
 	public PinYinMarker() {
@@ -27,11 +25,11 @@ public class PinYinMarker {
 	 * @param file要读取的文件
 	 * @return 读取后返回的字符串
 	 */
-	private java.util.Map<String, Integer> readFileBH(File file) {
+	private java.util.Map<String, Integer> readFileBH() {
 		java.util.Map<String, Integer> num = new java.util.Hashtable<String, Integer>();
 		try {
 			InputStreamReader reader = new InputStreamReader(
-					new FileInputStream(file), "UTF-8");
+					PinYinMarker.class.getResourceAsStream(resourcesFile), "UTF-8");
 			BufferedReader br = new BufferedReader(reader);
 			String str = "";
 			String st = "";
@@ -58,7 +56,7 @@ public class PinYinMarker {
 	 * @param w2
 	 * @return
 	 */
-	public static int compareBH(String w1, String w2) {
+	public int compareBH(String w1, String w2) {
 		w1 = w1.replaceAll("\\s*", "");
 		w2 = w2.replaceAll("\\s*", "");
 		int wlen1 = w1.length();
@@ -86,9 +84,9 @@ public class PinYinMarker {
 			}
 				
 			if (n1 < n2) {
-				return 1;
-			} else if (n1 > n2) {
 				return -1;
+			} else if (n1 > n2) {
+				return 1;
 			} else {
 				continue;
 			}
@@ -101,7 +99,7 @@ public class PinYinMarker {
 	 * @param word
 	 * @return 返回<word, pinyin>Pair对的列表集 多音字有多个Pair对
 	 */
-	public static PairList getPinYinList(String word){
+	public static PairList getPinYinList(String word, int pyNum){
 		String phrasePY  = "";
 		String charPY = "";
 		//标注拼音 词组标注一个音 单字如果是多音字标注多个音
@@ -143,10 +141,20 @@ public class PinYinMarker {
 			}
 			pinyinList = new ArrayList<Pair>();
 			for(String pyStr : pinyinStr.split(",")){
+				if(pyNum == 1){
 				pair = new Pair();
 				pair.setPinyin(pyStr);
 				pair.setWord(word);
+					pair.setMulit(true);
 				pinyinList.add(pair);
+					break;
+				}else{
+					pair = new Pair();
+					pair.setPinyin(pyStr);
+					pair.setWord(word);
+					pair.setMulit(true);
+					pinyinList.add(pair);
+				}
 			}
 			pairList.setList(pinyinList);
 			pairList.setCharacter(true);

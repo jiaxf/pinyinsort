@@ -17,6 +17,7 @@ public class PinYinSort {
 	 * @return
 	 */
 	public static String sortToString(String str) {
+		int pyNum = 1;
 		String[] string = str.split("\n");
 		java.util.List<PairList> sortlist = new java.util.ArrayList<PairList>();
 
@@ -27,7 +28,7 @@ public class PinYinSort {
 				for (int n = 0; n < words.length; n++) {
 					String w = words[n].trim();
 					if (w.length() > 0) {
-						PairList list = PinYinMarker.getPinYinList(w);
+						PairList list = PinYinMarker.getPinYinList(w, pyNum);
 						if(w.length() == 1){
 							List<Pair> plist = list.getList();
 							PairList temp = null;
@@ -74,9 +75,10 @@ public class PinYinSort {
 	 * @return
 	 */
 	public static List<String> sortPYSimple(java.util.List<String> list) {
+		int pyNum = 1;
 		java.util.List<PairList> sortlist = new java.util.ArrayList<PairList>();
 		for(int i=0;i < list.size();i++){
-			PairList pairList =  PinYinMarker.getPinYinList(list.get(i));
+			PairList pairList =  PinYinMarker.getPinYinList(list.get(i), pyNum);
 			if(list.get(i).length() ==0 || pairList == null || pairList.getList().size() == 0){
 				continue;
 			}

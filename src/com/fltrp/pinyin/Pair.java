@@ -4,6 +4,13 @@ public class Pair {
 
 	private String word;
 	private String pinyin;
+	private boolean isMulit;
+	public boolean isMulit() {
+		return isMulit;
+	}
+	public void setMulit(boolean isMulit) {
+		this.isMulit = isMulit;
+	}
 	public String getWord() {
 		return word;
 	}
